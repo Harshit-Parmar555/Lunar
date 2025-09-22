@@ -1,13 +1,25 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
+import SignUpPage from "./pages/auth/SignUpPage";
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 import MainLayout from "./layouts/MainLayout";
 import AlbumPage from "./pages/albums/AlbumPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 const App = () => {
   return (
     <Routes>
+      {/* Public routes */}
+      <Route
+        path="/signup"
+        element={
+          <PublicRoute>
+            <SignUpPage />
+          </PublicRoute>
+        }
+      />
       <Route
         path="/sso-callback"
         element={
@@ -17,7 +29,15 @@ const App = () => {
         }
       />
       <Route path="/auth-callback" element={<AuthCallbackPage />} />
-      <Route element={<MainLayout />}>
+
+      {/* Protected routes */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="/" element={<HomePage />} />
         <Route path="/albums/:id" element={<AlbumPage />} />
       </Route>

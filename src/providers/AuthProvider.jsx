@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { Loader } from "lucide-react";
 import { axiosInstance } from "@/lib/axios";
+import useAuthStore from "@/stores/useAuthStore";
 
 const updateAuthToken = async (token) => {
   if (token) {
@@ -13,7 +14,9 @@ const updateAuthToken = async (token) => {
 
 const AuthProvider = ({ children }) => {
   const [loading, setloading] = useState(true);
-  const { getToken, userId } = useAuth();
+  const { getToken, userId, isLoaded: authLoaded, isSignedIn } = useAuth();
+  const { user, isLoaded: userLoaded } = useUser();
+  const { initializeAuth, resetAuth } = useAuthStore();
 
   useEffect(() => {
     const authenticate = async () => {
@@ -26,16 +29,29 @@ const AuthProvider = ({ children }) => {
         setloading(false);
       }
     };
-    authenticate();
-  }, [getToken, userId]);
 
-  if (loading) {
+    if (authLoaded) {
+      authenticate();
+    }
+  }, [getToken, userId, authLoaded]);
+
+  useEffect(() => {
+    if (authLoaded && userLoaded) {
+      if (isSignedIn && user) {
+        initializeAuth(user, true);
+      } else {
+        resetAuth();
+      }
+    }
+  }, [user, authLoaded, userLoaded, isSignedIn, initializeAuth, resetAuth]);
+
+  if (loading || !authLoaded || !userLoaded) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <Loader className="text-emerald-600 animate-spin" />
       </div>
     );
   }
-  return <>{children}</>
+  return <>{children}</>;
 };
 export default AuthProvider;
