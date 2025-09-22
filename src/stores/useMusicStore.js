@@ -4,6 +4,7 @@ import { axiosInstance } from "@/lib/axios";
 export const useMusicStore = create((set) => ({
   songs: [],
   albums: [],
+  currentAlbum: null,
   isLoading: false,
   error: null,
 
@@ -12,6 +13,18 @@ export const useMusicStore = create((set) => ({
     try {
       const response = await axiosInstance.get("/albums");
       set({ albums: response.data.albums });
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchAlbumById: async (albumId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.get(`/albums/${albumId}`);
+      set({ currentAlbum: response.data.album });
     } catch (error) {
       set({ error: error.response.data.message });
     } finally {
