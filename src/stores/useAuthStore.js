@@ -1,10 +1,13 @@
+import { axiosInstance } from "@/lib/axios";
 import { create } from "zustand";
 
 const useAuthStore = create((set, get) => ({
   // State
   isLoggedIn: false,
   user: null,
+  isAdmin: false,
   isLoading: true,
+  isAdminLoading: false,
 
   // Actions
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
@@ -29,6 +32,18 @@ const useAuthStore = create((set, get) => ({
       user: null,
       isLoading: false,
     }),
+
+  checkAdmin: async () => {
+    set({ isAdminLoading: true });
+    try {
+      const response = await axiosInstance.get("/admin/check");
+      set({ isAdmin: response.data.admin });
+    } catch (error) {
+      set({ isAdmin: false, error: error.response.data.message });
+    } finally {
+      set({ isAdminLoading: false });
+    }
+  },
 }));
 
 export default useAuthStore;
