@@ -1,6 +1,13 @@
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/home/HomePage";
+import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
+
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
-export default App
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/auth-callback" element={<AuthCallbackPage />} />
+    </Routes>
+  );
+};
+export default App;
