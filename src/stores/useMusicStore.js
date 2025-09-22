@@ -5,30 +5,31 @@ export const useMusicStore = create((set) => ({
   songs: [],
   albums: [],
   currentAlbum: null,
-  isLoading: false,
+  isLoadingAlbums: false,
+  isLoadingCurrentAlbum: false,
   error: null,
 
   fetchAlbums: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoadingAlbums: true, error: null });
     try {
       const response = await axiosInstance.get("/albums");
       set({ albums: response.data.albums });
     } catch (error) {
       set({ error: error.response.data.message });
     } finally {
-      set({ isLoading: false });
+      set({ isLoadingAlbums: false });
     }
   },
 
   fetchAlbumById: async (albumId) => {
-    set({ isLoading: true, error: null });
+    set({ isLoadingCurrentAlbum: true, error: null });
     try {
       const response = await axiosInstance.get(`/albums/${albumId}`);
       set({ currentAlbum: response.data.album });
     } catch (error) {
       set({ error: error.response.data.message });
     } finally {
-      set({ isLoading: false });
+      set({ isLoadingCurrentAlbum: false });
     }
   },
 }));

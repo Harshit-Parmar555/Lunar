@@ -6,7 +6,7 @@ import { useMusicStore } from "@/stores/useMusicStore";
 import { Link } from "react-router-dom";
 
 const LeftSidebar = () => {
-  const { isLoading, fetchAlbums, albums } = useMusicStore();
+  const { isLoadingAlbums, fetchAlbums, albums } = useMusicStore();
 
   useEffect(() => {
     fetchAlbums();
@@ -24,7 +24,7 @@ const LeftSidebar = () => {
 
         <ScrollArea className="h-[calc(100vh-300px)]">
           <div className="space-y-2">
-            {isLoading ? (
+            {isLoadingAlbums ? (
               <PlaylistSkeleton />
             ) : (
               albums.map((album) => (
