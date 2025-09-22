@@ -4,6 +4,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Outlet } from "react-router-dom";
+import LeftSidebar from "./components/LeftSidebar";
 
 const MainLayout = () => {
   const isMobile = false;
@@ -19,7 +20,7 @@ const MainLayout = () => {
           maxSize={isMobile ? 0 : 30}
           className="border-r border-zinc-800 pr-2"
         >
-          <h1>left sidebar</h1>
+          <LeftSidebar/>
         </ResizablePanel>
 
         <ResizableHandle />
