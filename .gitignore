@@ -15,6 +15,34 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+
+# Vite build output
+/dist
+/.vite
+
+# Static assets
+/public/static
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependency directories
+/node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Optional: IDE settings
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .idea
 .DS_Store
 *.suo
