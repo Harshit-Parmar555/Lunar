@@ -1,12 +1,8 @@
+import { SignedOut, UserButton } from "@clerk/clerk-react";
+import { LayoutDashboardIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  SignedOut,
-  SignedIn,
-  UserButton,
-  SignOutButton,
-} from "@clerk/clerk-react";
+import SignInOAuthButtons from "./SignInOAuthButtons";
 import useAuthStore from "@/stores/useAuthStore";
-import { Button } from "./ui/button";
 
 const Topbar = () => {
   const { isAdmin } = useAuthStore();
@@ -21,15 +17,18 @@ const Topbar = () => {
         Spotify
       </div>
       <div className="flex items-center gap-4">
-        {isAdmin && <Link to={"/admin"}>Admin Dashboard</Link>}
+        {isAdmin && (
+          <Link to={"/admin"}>
+            <LayoutDashboardIcon className="size-4 mr-2" />
+            Admin Dashboard
+          </Link>
+        )}
 
-        <SignedIn>
-          <SignOutButton>
-            <Button variant={"secondary"} className="text-sm">
-              Sign Out
-            </Button>
-          </SignOutButton>
-        </SignedIn>
+        <SignedOut>
+          <SignInOAuthButtons />
+        </SignedOut>
+
+        <UserButton />
       </div>
     </div>
   );
