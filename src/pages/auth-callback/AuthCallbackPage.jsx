@@ -1,15 +1,13 @@
-import { useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
+import { CardContent, Card } from "@/components/ui/card";
 import { axiosInstance } from "@/lib/axios";
-import { useNavigate } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
+import { useUser } from "@clerk/clerk-react";
 import { Loader } from "lucide-react";
-import useAuthStore from "@/stores/useAuthStore";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthCallbackPage = () => {
   const { user, isLoaded } = useUser();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUser } = useAuthStore();
 
   useEffect(() => {
     const addUser = async () => {
@@ -21,10 +19,6 @@ const AuthCallbackPage = () => {
           lastname: user.lastName,
           imageUrl: user.imageUrl,
         });
-
-        // Update auth store with user data
-        setIsLoggedIn(true);
-        setUser(user);
       } catch (error) {
         console.log("Error adding user:", error);
       } finally {
@@ -32,7 +26,7 @@ const AuthCallbackPage = () => {
       }
     };
     addUser();
-  }, [isLoaded, user, navigate, setIsLoggedIn, setUser]);
+  }, [isLoaded, user, navigate]);
 
   return (
     <div className="h-screen w-full bg-black flex items-center justify-center">
