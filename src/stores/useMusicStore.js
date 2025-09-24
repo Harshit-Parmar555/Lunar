@@ -6,12 +6,15 @@ export const useMusicStore = create((set) => ({
   albums: [],
   currentAlbum: null,
   featuredSongs: [],
-  trendingSongs : [],
+  trendingSongs: [],
+  stats: {},
   isLoadingAlbums: false,
   isLoadingCurrentAlbum: false,
+  isLoading: false,
 
   error: null,
 
+  // fetching
   fetchAlbums: async () => {
     set({ isLoadingAlbums: true, error: null });
     try {
@@ -53,6 +56,81 @@ export const useMusicStore = create((set) => ({
     try {
       const response = await axiosInstance.get("/songs/trending");
       set({ trendingSongs: response.data.songs });
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchStats: async () => {
+    try {
+      const response = await axiosInstance.get("/stats");
+      set({ stats: response.data });
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchSongs: async () => {
+    try {
+      const response = await axiosInstance.get("/songs");
+      set({ songs: response.data.songs });
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  // uploading
+  uploadSong: async (formData) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.post("/admin/add-song", formData);
+      toast.success("Song uploaded successfully!");
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  addAlbum: async (formData) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.post("/admin/add-album", formData);
+      toast.success("Album uploaded successfully!");
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteSong: async (songId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.delete(
+        `/admin/delete-song/${songId}`
+      );
+      toast.success("Song deleted successfully!");
+    } catch (error) {
+      set({ error: error.response.data.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteAlbum: async (albumId) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.delete(
+        `/admin/delete-album/${albumId}`
+      );
+      toast.success("Album deleted successfully!");
     } catch (error) {
       set({ error: error.response.data.message });
     } finally {
