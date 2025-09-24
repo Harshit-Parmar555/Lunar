@@ -13,23 +13,6 @@ const HomePage = () => {
   const [greeting, setgreeting] = useState("Good Morning");
   const { user } = useUser();
 
-  const updateGreeting = () => {
-    const currentHour = new Date().getHours();
-    if (currentHour >= 5 && currentHour < 12) {
-      setgreeting("Good Morning");
-    } else if (currentHour >= 12 && currentHour < 17) {
-      setgreeting("Good Afternoon");
-    } else if (currentHour >= 17 && currentHour < 21) {
-      setgreeting("Good Evening");
-    } else {
-      setgreeting("Good Night");
-    }
-  };
-
-  useEffect(() => {
-    updateGreeting();
-  }, []);
-
   useEffect(() => {
     fetchFeaturedSongs();
     fetchTrendingSongs();
