@@ -1,34 +1,52 @@
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import Signup from "./pages/auth/Signup";
 import HomePage from "./pages/home/HomePage";
-import AuthCallbackPage from "./pages/auth-callback/AuthCallbackPage";
-import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 import MainLayout from "./layouts/MainLayout";
 import AlbumPage from "./pages/albums/AlbumPage";
 import AdminPage from "./pages/admin/AdminPage";
 
-import { Toaster } from "react-hot-toast";
+import useAuthStore from "./stores/useAuthStore";
+import { Loader } from "lucide-react";
+import { ProtectedRoute, PublicRoute } from "./guards/Guards";
 
 const App = () => {
+  const { checkAuth, checkingAuth, user, isAuthenticated } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (checkingAuth) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <Loader className="text-emerald-600 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Routes>
         <Route
-          path="/sso-callback"
+          path="/signup"
           element={
-            <AuthenticateWithRedirectCallback
-              signUpForceRedirectUrl={"/auth-callback"}
-            />
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
           }
         />
-        <Route path="/auth-callback" element={<AuthCallbackPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        {/* Protected routes */}
-        <Route element={<MainLayout />}>
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<HomePage />} />
           <Route path="/albums/:id" element={<AlbumPage />} />
         </Route>
       </Routes>
-      <Toaster />
     </>
   );
 };
