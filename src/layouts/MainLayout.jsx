@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/resizable";
 import { Outlet } from "react-router-dom";
 import LeftSidebar from "./components/LeftSidebar";
-
+import AudioPlayer from "./components/AudioPlayer";
 const MainLayout = () => {
   const isMobile = false;
   return (
@@ -20,9 +20,9 @@ const MainLayout = () => {
           maxSize={isMobile ? 0 : 30}
           className="border-r border-zinc-800 pr-2"
         >
-          <LeftSidebar/>
+          <LeftSidebar />
         </ResizablePanel>
-
+        <AudioPlayer />
         <ResizableHandle />
         <ResizablePanel defaultSize={80} className="overflow-auto">
           <Outlet />
