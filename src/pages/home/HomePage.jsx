@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Topbar from "@/components/Topbar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { useUser } from "@clerk/clerk-react";
 import SectionGrid from "./components/SectionGrid";
 import FeaturedSection from "./components/FeaturedSection";
 
@@ -11,7 +10,6 @@ const HomePage = () => {
     useMusicStore();
 
   const [greeting, setgreeting] = useState("Good Morning");
-  const { user } = useUser();
 
   useEffect(() => {
     fetchFeaturedSongs();
@@ -25,7 +23,7 @@ const HomePage = () => {
         <div className="p-4 sm:p-6">
           <h1 className="text-2xl sm:text-3xl font-bold mb-6">
             {greeting}
-            {user?.firstName ? `, ${user.firstName}` : ""}!
+            {"Harshit Parmar"}
           </h1>
           <FeaturedSection />
           <div className="space-y-8">
