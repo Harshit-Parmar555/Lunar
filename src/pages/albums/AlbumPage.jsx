@@ -101,7 +101,7 @@ const AlbumPage = () => {
 
                         <div className="flex items-center gap-3">
                           <img
-                            src={song.imageUrl}
+                            src={song.coverImage}
                             alt={song.title}
                             className="size-10"
                           />
