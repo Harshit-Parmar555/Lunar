@@ -1,11 +1,17 @@
-import { SignedOut, UserButton } from "@clerk/clerk-react";
 import { LayoutDashboardIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import SignInOAuthButtons from "./SignInOAuthButtons";
+import { Button } from "./ui/button";
 import useAuthStore from "@/stores/useAuthStore";
 
 const Topbar = () => {
-  const { isAdmin } = useAuthStore();
+  const { isAdmin, logout } = useAuthStore();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
   return (
     <div
       className="flex items-center justify-between p-4 sticky top-0 bg-zinc-900/75 
@@ -24,11 +30,12 @@ const Topbar = () => {
           </Link>
         )}
 
-        <SignedOut>
-          <SignInOAuthButtons />
-        </SignedOut>
-
-        <UserButton />
+        <Button
+          onClick={handleLogout}
+          className="bg-emerald-500 hover:bg-emerald-600 text-white"
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );
