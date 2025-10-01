@@ -9,8 +9,8 @@ export const usePlayStore = create((set, get) => ({
   initializeQueue: (songs) => {
     set({
       queue: songs,
-      currentIndex: get().currentIndex || 0,
-      currentSong: get().currentIndex === -1 ? 0 : get().currentIndex,
+      currentIndex: get().currentIndex === -1 ? 0 : get().currentIndex,
+      currentSong: get().currentSong || songs[0],
     });
   },
 
@@ -20,6 +20,17 @@ export const usePlayStore = create((set, get) => ({
       queue: songs,
       currentIndex: startIndex,
       currentSong: songs[startIndex],
+      isPlaying: true,
+    });
+  },
+
+  shuffleAlbum: (songs, startIndex = 0) => {
+    if (songs.length === 0) return;
+    const shuffledSongs = [...songs].sort(() => Math.random() - 0.5);
+    set({
+      queue: shuffledSongs,
+      currentIndex: startIndex,
+      currentSong: shuffledSongs[startIndex],
       isPlaying: true,
     });
   },

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, Clock } from "lucide-react";
+import { Play, Pause, Clock, Shuffle } from "lucide-react";
 import { usePlayStore } from "@/stores/usePlayStore";
 
 const formatDuration = (duration) => {
@@ -13,7 +13,8 @@ const formatDuration = (duration) => {
 };
 
 const AlbumPage = () => {
-  const { currentSong, isPlaying, toggle, playAlbum } = usePlayStore();
+  const { currentSong, isPlaying, toggle, playAlbum, shuffleAlbum } =
+    usePlayStore();
   const { id } = useParams();
   const { currentAlbum, fetchAlbumById, isLoadingCurrentAlbum } =
     useMusicStore();
@@ -31,6 +32,11 @@ const AlbumPage = () => {
     playAlbum(currentAlbum?.songs, index);
   };
 
+  const handleShuffleAlbum = () => {
+    if (!currentAlbum) return;
+    shuffleAlbum(currentAlbum?.songs, 0);
+  };
+
   const handlePlayAlbum = () => {
     const isCurrentAblumPlaying = currentAlbum?.songs.some(
       (song) => song._id === currentSong?._id
@@ -38,7 +44,7 @@ const AlbumPage = () => {
     if (isCurrentAblumPlaying) {
       toggle();
     } else {
-      playAlbum(currentAlbum?.songs, 0);
+      playAlbum(currentAlbum?.songs);
     }
   };
 
@@ -49,8 +55,7 @@ const AlbumPage = () => {
         <div className="relative min-h-full">
           {/* bg gradient */}
           <div
-            className="absolute inset-0 bg-gradient-to-b from-[#5038a0]/80 via-zinc-900/80
-					 to-zinc-900 pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             aria-hidden="true"
           />
 
@@ -81,7 +86,7 @@ const AlbumPage = () => {
               <Button
                 onClick={handlePlayAlbum}
                 size="icon"
-                className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-400 
+                className="w-14 h-14 rounded-full bg-white hover:bg-zinc-400 
                 hover:scale-105 transition-all"
               >
                 {isPlaying &&
@@ -92,6 +97,18 @@ const AlbumPage = () => {
                 ) : (
                   <Play className="h-7 w-7 text-black" />
                 )}
+              </Button>
+              <Button
+                onClick={handleShuffleAlbum}
+                size="icon"
+                className="w-14 h-14 rounded-full bg-white hover:bg-zinc-400 
+                hover:scale-105 transition-all"
+              >
+                <Shuffle
+                  className="w-14 h-14 rounded-full hover:bg-zinc-400
+                hover:scale-105 transition-all"
+                  size="icon"
+                />
               </Button>
             </div>
 
