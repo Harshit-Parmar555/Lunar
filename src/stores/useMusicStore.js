@@ -1,12 +1,15 @@
 import { create } from "zustand";
 import { axiosInstance } from "@/lib/axios";
+import { toast } from "react-hot-toast";
 
 export const useMusicStore = create((set) => ({
   songs: [],
   albums: [],
   currentAlbum: null,
   featuredSongs: [],
+  featuredAlbums: [],
   trendingSongs: [],
+  madeForYouSongs: [],
   stats: {},
   isLoadingAlbums: false,
   isLoadingCurrentAlbum: false,
@@ -50,6 +53,36 @@ export const useMusicStore = create((set) => ({
       set({
         error:
           error?.response?.data?.message || "Failed to fetch featured songs",
+      });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchFeaturedAlbums: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axiosInstance.get("/albums/featured");
+      set({ featuredAlbums: response.data.albums });
+    } catch (error) {
+      set({
+        error:
+          error?.response?.data?.message || "Failed to fetch featured albums",
+      });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchGetMadeForYouSongs: async () => {
+    try {
+      const response = await axiosInstance.get("/songs/made-for-you");
+      set({ madeForYouSongs: response.data.songs });
+    } catch (error) {
+      set({
+        error:
+          error?.response?.data?.message ||
+          "Failed to fetch made for you songs",
       });
     } finally {
       set({ isLoading: false });
@@ -118,6 +151,7 @@ export const useMusicStore = create((set) => ({
     }
   },
 
+  // delete
   deleteSong: async (songId) => {
     set({ isLoading: true, error: null });
     try {
