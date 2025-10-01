@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Signup from "./pages/auth/Signup";
+import Land from "./pages/auth/Land";
 import HomePage from "./pages/home/HomePage";
 import MainLayout from "./layouts/MainLayout";
 import AlbumPage from "./pages/albums/AlbumPage";
@@ -31,7 +31,7 @@ const App = () => {
           path="/signup"
           element={
             <PublicRoute>
-              <Signup />
+              <Land />
             </PublicRoute>
           }
         />
