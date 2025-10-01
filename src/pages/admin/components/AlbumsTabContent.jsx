@@ -11,7 +11,7 @@ import AlbumsTable from "./AlbumsTable";
 
 const AlbumsTabContent = () => {
   return (
-    <Card className="bg-zinc-800/50 border-zinc-700/50">
+    <Card className="bg-zinc-950">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>

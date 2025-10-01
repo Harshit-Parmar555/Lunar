@@ -22,7 +22,7 @@ const AdminPage = () => {
   if (!isAdmin) return <div className="text-white">Unauthorized</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-900 to-black text-zinc-100 p-8">
+    <div className="min-h-screen bg-black text-zinc-100 p-8">
       <Header />
       <DashboardStats />
 

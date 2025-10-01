@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-
+import Lunar from "@/assets/lunar.png";
 const Header = () => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3 mb-8">
         <Link to="/" className="rounded-lg">
-          <img src="/favicon.png" className="size-10 text-black" />
+          <img src={Lunar} className="size-10 text-black" />
         </Link>
         <div>
           <h1 className="text-3xl font-bold">Music Manager</h1>
