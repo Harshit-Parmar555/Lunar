@@ -118,3 +118,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+.inter{
+  font-family: 'Inter', sans-serif;
+}
+
+.poppins{
+  font-family: 'Poppins', sans-serif;
+}
