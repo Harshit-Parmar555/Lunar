@@ -5,10 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 // ✅ NEW: Full background version
-export const GlowingStarsBackground = ({
-  className,
-  children
-}) => {
+export const GlowingStarsBackground = ({ className, children }) => {
   const [mouseEnter, setMouseEnter] = useState(false);
 
   return (
@@ -22,59 +19,80 @@ export const GlowingStarsBackground = ({
       className={cn(
         "min-h-screen w-full bg-black relative overflow-hidden", // ✅ Full screen background
         className
-      )}>
+      )}
+    >
       {/* ✅ Background stars covering full screen */}
       <div className="absolute inset-0 flex justify-center items-start">
         <FullScreenIllustration mouseEnter={mouseEnter} />
       </div>
-      
+
       {/* ✅ Content overlay */}
-      <div className="relative z-10 w-full h-full">
-        {children}
-      </div>
+      <div className="relative z-10 w-full h-full">{children}</div>
     </div>
   );
 };
 
-// ✅ NEW: Full screen illustration
-export const FullScreenIllustration = ({
-  mouseEnter
-}) => {
-  const stars = 300; // More stars for full screen
-  const columns = 25; // More columns for wider screen
+export const FullScreenIllustration = ({ mouseEnter }) => {
+  // ✅ FIX: Responsive star configuration
+  const getStarConfig = () => {
+    if (window.innerWidth < 640) {
+      // Mobile
+      return { stars: 150, columns: 15 };
+    } else if (window.innerWidth < 1024) {
+      // Tablet
+      return { stars: 200, columns: 20 };
+    } else {
+      // Desktop
+      return { stars: 300, columns: 25 };
+    }
+  };
 
+  const [starConfig, setStarConfig] = useState(getStarConfig());
   const [glowingStars, setGlowingStars] = useState([]);
   const highlightedStars = useRef([]);
 
   useEffect(() => {
+    const handleResize = () => {
+      setStarConfig(getStarConfig());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       highlightedStars.current = Array.from({ length: 10 }, () =>
-        Math.floor(Math.random() * stars));
+        Math.floor(Math.random() * starConfig.stars)
+      );
       setGlowingStars([...highlightedStars.current]);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [starConfig.stars]);
 
   return (
     <div
-      className="w-full h-screen p-4"
+      className="w-full h-screen p-2 sm:p-4"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        gap: `2px`,
-      }}>
-      {[...Array(stars)].map((_, starIdx) => {
+        gridTemplateColumns: `repeat(${starConfig.columns}, 1fr)`,
+        gap: `1px sm:2px`,
+      }}
+    >
+      {[...Array(starConfig.stars)].map((_, starIdx) => {
         const isGlowing = glowingStars.includes(starIdx);
         const delay = (starIdx % 10) * 0.1;
         const staticDelay = starIdx * 0.01;
         return (
           <div
             key={`matrix-col-${starIdx}}`}
-            className="relative flex items-center justify-center">
+            className="relative flex items-center justify-center"
+          >
             <Star
               isGlowing={mouseEnter ? true : isGlowing}
-              delay={mouseEnter ? staticDelay : delay} />
+              delay={mouseEnter ? staticDelay : delay}
+            />
             {mouseEnter && <Glow delay={staticDelay} />}
             <AnimatePresence mode="wait">
               {isGlowing && <Glow delay={delay} />}
@@ -87,10 +105,7 @@ export const FullScreenIllustration = ({
 };
 
 // ✅ Keep original card version for other uses
-export const GlowingStarsBackgroundCard = ({
-  className,
-  children
-}) => {
+export const GlowingStarsBackgroundCard = ({ className, children }) => {
   const [mouseEnter, setMouseEnter] = useState(false);
 
   return (
@@ -104,7 +119,8 @@ export const GlowingStarsBackgroundCard = ({
       className={cn(
         "bg-[linear-gradient(110deg,#333_0.6%,#222)] p-4 max-w-md max-h-[20rem] h-full w-full rounded-xl border border-[#eaeaea] dark:border-neutral-600",
         className
-      )}>
+      )}
+    >
       <div className="flex justify-center items-center">
         <Illustration mouseEnter={mouseEnter} />
       </div>
@@ -113,10 +129,7 @@ export const GlowingStarsBackgroundCard = ({
   );
 };
 
-export const GlowingStarsDescription = ({
-  className,
-  children
-}) => {
+export const GlowingStarsDescription = ({ className, children }) => {
   return (
     <p className={cn("text-base text-white max-w-[16rem]", className)}>
       {children}
@@ -124,10 +137,7 @@ export const GlowingStarsDescription = ({
   );
 };
 
-export const GlowingStarsTitle = ({
-  className,
-  children
-}) => {
+export const GlowingStarsTitle = ({ className, children }) => {
   return (
     <h2 className={cn("font-bold text-2xl text-[#eaeaea]", className)}>
       {children}
@@ -135,9 +145,7 @@ export const GlowingStarsTitle = ({
   );
 };
 
-export const Illustration = ({
-  mouseEnter
-}) => {
+export const Illustration = ({ mouseEnter }) => {
   const stars = 108;
   const columns = 18;
 
@@ -147,7 +155,8 @@ export const Illustration = ({
   useEffect(() => {
     const interval = setInterval(() => {
       highlightedStars.current = Array.from({ length: 5 }, () =>
-        Math.floor(Math.random() * stars));
+        Math.floor(Math.random() * stars)
+      );
       setGlowingStars([...highlightedStars.current]);
     }, 3000);
 
@@ -161,7 +170,8 @@ export const Illustration = ({
         display: "grid",
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gap: `1px`,
-      }}>
+      }}
+    >
       {[...Array(stars)].map((_, starIdx) => {
         const isGlowing = glowingStars.includes(starIdx);
         const delay = (starIdx % 10) * 0.1;
@@ -169,10 +179,12 @@ export const Illustration = ({
         return (
           <div
             key={`matrix-col-${starIdx}}`}
-            className="relative flex items-center justify-center">
+            className="relative flex items-center justify-center"
+          >
             <Star
               isGlowing={mouseEnter ? true : isGlowing}
-              delay={mouseEnter ? staticDelay : delay} />
+              delay={mouseEnter ? staticDelay : delay}
+            />
             {mouseEnter && <Glow delay={staticDelay} />}
             <AnimatePresence mode="wait">
               {isGlowing && <Glow delay={delay} />}
@@ -184,10 +196,7 @@ export const Illustration = ({
   );
 };
 
-const Star = ({
-  isGlowing,
-  delay
-}) => {
+const Star = ({ isGlowing, delay }) => {
   return (
     <motion.div
       key={delay}
@@ -203,13 +212,12 @@ const Star = ({
         ease: "easeInOut",
         delay: delay,
       }}
-      className={cn("bg-[#666] h-[1px] w-[1px] rounded-full relative z-20")}></motion.div>
+      className={cn("bg-[#666] h-[1px] w-[1px] rounded-full relative z-20")}
+    ></motion.div>
   );
 };
 
-const Glow = ({
-  delay
-}) => {
+const Glow = ({ delay }) => {
   return (
     <motion.div
       initial={{
@@ -226,6 +234,7 @@ const Glow = ({
       exit={{
         opacity: 0,
       }}
-      className="absolute left-1/2 -translate-x-1/2 z-10 h-[4px] w-[4px] rounded-full bg-blue-500 blur-[1px] shadow-2xl shadow-blue-400" />
+      className="absolute left-1/2 -translate-x-1/2 z-10 h-[4px] w-[4px] rounded-full bg-blue-500 blur-[1px] shadow-2xl shadow-blue-400"
+    />
   );
 };
