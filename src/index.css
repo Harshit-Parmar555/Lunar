@@ -39,6 +39,16 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --animate-rippling: rippling var(--duration) ease-out;
+  @keyframes rippling {
+  0% {
+    opacity: 1;
+    }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    }
+  }
 }
 
 :root {
@@ -129,4 +139,8 @@
 
 .poppins{
   font-family: 'Poppins', sans-serif;
+}
+
+.michroma{
+  font-family: 'Michroma', sans-serif;
 }
