@@ -29,7 +29,7 @@ const MainLayout = () => {
 
   if (isMobile === null) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-black">
+      <div className="w-dvh h-screen flex items-center justify-center bg-black">
         <Loader className="text-white animate-spin" />
       </div>
     );
