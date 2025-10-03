@@ -20,7 +20,7 @@ const SectionGrid = ({ title, songs, isLoading }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {songs.map((song) => (
+        {songs?.map((song) => (
           <div
             key={song._id}
             className="p-4 rounded-md hover:bg-zinc-950 transition-all group cursor-pointer"
