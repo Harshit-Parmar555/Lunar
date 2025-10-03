@@ -10,6 +10,7 @@ export const useMusicStore = create((set) => ({
   featuredAlbums: [],
   trendingSongs: [],
   madeForYouSongs: [],
+  searchResults: [],
   stats: {},
   isLoadingAlbums: false,
   isLoadingCurrentAlbum: false,
@@ -177,6 +178,17 @@ export const useMusicStore = create((set) => ({
       set({
         error: error?.response?.data?.message || "Failed to delete album",
       });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  searchSong: async (query) => {
+    try {
+      const response = await axiosInstance.get(`/songs/search?name=${query}`);
+      set({ searchResults: response.data.songs });
+    } catch (error) {
+      set({ error: error?.response?.data?.message || "Failed to search song" });
     } finally {
       set({ isLoading: false });
     }
