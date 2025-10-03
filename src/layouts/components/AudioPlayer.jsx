@@ -35,7 +35,7 @@ const AudioPlayer = () => {
 
       audio.currentTime = 0;
 
-      prevSongRef.current = currentSong?.audioUrl;
+      prevSongRef.current = currentSong?.url;
 
       if (isPlaying) audio.play();
     }
