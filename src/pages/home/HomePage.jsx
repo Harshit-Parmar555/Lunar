@@ -45,7 +45,7 @@ const HomePage = () => {
   }, [fetchFeaturedSongs, fetchTrendingSongs]);
 
   useEffect(() => {
-    if (trendingSongs.length > 0 && featuredSongs.length > 0) {
+    if (trendingSongs?.length > 0 && featuredSongs?.length > 0) {
       const allSongs = [...featuredSongs, ...trendingSongs];
       initializeQueue(allSongs);
     }

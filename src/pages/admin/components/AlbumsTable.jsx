@@ -30,7 +30,7 @@ const AlbumsTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {albums.map((album) => (
+        {albums?.map((album) => (
           <TableRow key={album._id} className="hover:bg-zinc-800/50">
             <TableCell>
               <img

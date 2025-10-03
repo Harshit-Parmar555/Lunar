@@ -23,7 +23,7 @@ const Playlists = () => {
           {isLoading ? (
             <PlaylistSkeleton />
           ) : (
-            albums.map((album) => (
+            albums?.map((album) => (
               <Link
                 to={`/albums/${album._id}`}
                 key={album._id}

@@ -24,13 +24,13 @@ const Search = () => {
   }, [searchSong, query]);
 
   useEffect(() => {
-    if (searchResults.length > 0) {
+    if (searchResults?.length > 0) {
       initializeQueue(searchResults);
     }
   }, [searchResults, initializeQueue]);
 
   const handleSongClick = (song, index) => {
-    if (searchResults.length === 0) return;
+    if (searchResults?.length === 0) return;
     playAlbum(searchResults, index);
   };
 
@@ -60,7 +60,7 @@ const Search = () => {
       )}
       <div className="w-full max-w-lg mx-auto">
         <ScrollArea className="w-full relative">
-          {query && searchResults.length > 0 ? (
+          {query && searchResults?.length > 0 ? (
             <div className="flex flex-col gap-4">
               <div
                 key={searchResults[0]._id}
@@ -84,7 +84,7 @@ const Search = () => {
                 </div>
               </div>
 
-              {searchResults.slice(1).map((song, index) => (
+              {searchResults?.slice(1).map((song, index) => (
                 <div
                   key={song._id}
                   onClick={() => handleSongClick(song, index + 1)}
