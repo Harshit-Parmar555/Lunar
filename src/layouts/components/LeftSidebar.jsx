@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Library } from "lucide-react";
+import { Library, HomeIcon, Search } from "lucide-react";
 import PlaylistSkeleton from "@/components/skeletons/PlaylistSkeleton ";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { Link } from "react-router-dom";
@@ -13,17 +13,36 @@ const LeftSidebar = () => {
   }, [fetchAlbums]);
 
   return (
-    <div className="h-full flex flex-col gap-2">
-      <div className="flex-1 rounded-lg bg-zinc-900 p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center text-white px-2">
-            <Library className="size-5 mr-2" />
-            <span className="hidden md:inline">Playlists</span>
-          </div>
+    <div className="h-full flex flex-col gap-2 pt-2">
+      <div className="p-4 border-b border-zinc-800">
+        <div className="space-y-2">
+          <Link
+            to={"/"}
+            className="w-full flex items-center justify-start hover:bg-zinc-900 p-2 rounded-md gap-4 py-3"
+          >
+            <HomeIcon className="size-5 ml-2" />
+            <span className="hidden md:inline ">Home</span>
+          </Link>
+          <Link
+            to={"/playlist"}
+            className="w-full flex items-center justify-start hover:bg-zinc-900 p-2 rounded-md gap-4 py-3"
+          >
+            <Library className="size-5 ml-2" />
+            <span className="hidden md:inline ">PlayLists</span>
+          </Link>
+          <Link
+            to={"/search"}
+            className="w-full flex items-center justify-start hover:bg-zinc-900 p-2 rounded-md gap-4 py-3"
+          >
+            <Search className="size-5 ml-2" />
+            <span className="hidden md:inline ">Search</span>
+          </Link>
         </div>
+      </div>
 
+      <div className="flex-1 rounded-lg">
         <ScrollArea className="h-[calc(100vh-300px)]">
-          <div className="space-y-2">
+          <div className="space-y-2 p-2">
             {isLoadingAlbums ? (
               <PlaylistSkeleton />
             ) : (
@@ -31,7 +50,7 @@ const LeftSidebar = () => {
                 <Link
                   to={`/albums/${album._id}`}
                   key={album?._id}
-                  className="p-2 hover:bg-zinc-800 rounded-md flex items-center gap-3 group cursor-pointer"
+                  className="p-2 hover:bg-zinc-900 rounded-md flex items-center gap-3 group cursor-pointer"
                 >
                   <img
                     src={album?.coverImage}
