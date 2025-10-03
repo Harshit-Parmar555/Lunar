@@ -5,7 +5,7 @@ const isDevelopment = import.meta.env.VITE_ENV === "development";
 // Set baseURL based on environment
 const baseURL = isDevelopment
   ? "http://localhost:4000/api/v1"
-  : process.env.VITE_BASE_URL;
+  : import.meta.env.VITE_BASE_URL;
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,
