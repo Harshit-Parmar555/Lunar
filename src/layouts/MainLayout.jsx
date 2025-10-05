@@ -36,10 +36,10 @@ const MainLayout = () => {
   }
 
   return (
-    <div className="h-screen bg-black text-white flex flex-col">
+    <div className="h-dvh bg-black text-white flex flex-col overflow-hidden">
       <ResizablePanelGroup
         direction="horizontal"
-        className="flex flex-1 h-full overflow-hidden"
+        className="flex-1 min-h-0 overflow-hidden"
       >
         {!isMobile && (
           <>
